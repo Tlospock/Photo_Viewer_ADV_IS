@@ -1,50 +1,35 @@
 package window;
 
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import javax.swing.ButtonGroup;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
 
 public class MainWindow 
 {
-	// Constant
-	public static String FILE_LABEL = "File";
-	public static String IMPORT_LABEL = "Import";
-	public static String DELETE_LABEL = "Delete";
-	public static String QUIT_LABEL = "Quit";
-
-	public static String VIEW_LABEL = "View";
-	public static String PHOTO_VIEWER_LABEL = "Photo viewer (default)";
-	public static String BROWSER_LABEL = "Browser";
-	public static String SPLIT_MODE_LABEL = "Split mode";
-	
 	// Main window
 	private JFrame window;
 	
-	// The menu bar
-	private JMenuBar menuBar;
+	// Photo panel
+	private JPanel photoPanel;
 	
-	// Items on the menubar
-	private JMenu fileMenu;
-	private JMenu viewMenu;
+	// Menu bar
+	private MenuBar menuBar;
 	
-	// fileMenu's items
-	private JMenuItem importMenuItem;
-	private JMenuItem deleteMenuItem;
-	private JMenuItem quitMenuItem;
+	// Status bar
+	private StatusBar statusBar;
 	
-	// viewMenu's items
-	private JRadioButtonMenuItem photoViewerMode;
-	private JRadioButtonMenuItem browserViewerMode;
-	private JRadioButtonMenuItem splitModeViewerMode;
+	// Toolbar
+	private JToolBar toolbar;
+	
+	// Toolbar buttons
+	private JButton toolbarButton1;
+	private JButton toolbarButton2;
+	private JButton toolbarButton3;
 	
 	public static void main(String args[])
 	{
@@ -55,51 +40,26 @@ public class MainWindow
 	{
 		// Repl
 		window = new JFrame(title);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// BorderLayout, getToolBar? getContentBar?
-		window.getContentPane().setLayout(new FlowLayout());
-
-		// Create the menu bar
-		menuBar = new JMenuBar();
+		window.getContentPane().setLayout(new BorderLayout());
+		window.setSize(200, 200);
+		window.setMinimumSize(new Dimension(200, 150));
 		
-		//Build the file menu
-		fileMenu = new JMenu(FILE_LABEL);
-		fileMenu.setMnemonic(KeyEvent.VK_F);
+		statusBar = new StatusBar();
+		menuBar = new MenuBar(statusBar, window);
+		toolbar = createToolbar();
 		
-		importMenuItem = new JMenuItem(IMPORT_LABEL, KeyEvent.VK_I);
-		importMenuItem.getAccessibleContext().setAccessibleDescription("Import a picture");
-		importMenuItem.addActionListener(event -> importPicture());
+		// Setup of the main panel
+		// TODO create another class
+		photoPanel = new JPanel();
 		
-		deleteMenuItem = new JMenuItem(DELETE_LABEL, KeyEvent.VK_D);
-		deleteMenuItem.getAccessibleContext().setAccessibleDescription("Delete a picture");
-		deleteMenuItem.addActionListener(event -> deletePicture());
-		
-		quitMenuItem = new JMenuItem(QUIT_LABEL, KeyEvent.VK_Q);
-		quitMenuItem.getAccessibleContext().setAccessibleDescription("Quit the software");
-		quitMenuItem.addActionListener(event -> quitSoftware());
-		
-		fileMenu.add(importMenuItem);
-		fileMenu.add(deleteMenuItem);
-		fileMenu.add(quitMenuItem);
-		menuBar.add(fileMenu);
-		
-		// Build the view menu
-		viewMenu = new JMenu(VIEW_LABEL);
-		
-		ButtonGroup viewMenuRadioButtonGroup = new ButtonGroup();
-		
-		photoViewerMode = new JRadioButtonMenuItem(PHOTO_VIEWER_LABEL);
-		photoViewerMode.setSelected(true);
-		
-		browserViewerMode = new JRadioButtonMenuItem(BROWSER_LABEL);
-		
-		splitModeViewerMode = new JRadioButtonMenuItem(SPLIT_MODE_LABEL);
-		
-		viewMenu.add(viewMenu);
-		
-		window.add(menuBar);
-		
+		window.add(menuBar.getMenuBar(), BorderLayout.PAGE_START);
+		window.add(statusBar.getStatusBar(), BorderLayout.PAGE_END);
+		window.add(toolbar, BorderLayout.LINE_START);
+		window.add(toolbar, BorderLayout.CENTER);
+		/*
 		JButton sayHiButton = new JButton("Say hi button");
-		JButton sayByeButton = new JButton("Say bye button");
 		sayHiButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent event)
@@ -107,39 +67,30 @@ public class MainWindow
 				sayHi();
 			}
 		});
+		*/
 		
-		sayByeButton.addActionListener(
-			event -> sayBye()
-		);
-		
-		window.getContentPane().add(sayHiButton);
-		window.getContentPane().add(sayByeButton);
 		window.pack();
 		window.setVisible(true);
 	}
 	
-	public void updateStatusBar(String action)
+	public JToolBar createToolbar()
 	{
+		toolbar = new JToolBar();
+		toolbar.setLayout(new BoxLayout(toolbar, BoxLayout.Y_AXIS));
+		toolbarButton1 = new JButton("Button 1");
+		toolbarButton1.addActionListener(event -> statusBar.updateStatusBar("Toolbar button 1"));
 		
-	}
-	
-	public void changeMode() {
-		// TODO add arg + implements classes
-	}
-	
-	public void importPicture()
-	{
-		updateStatusBar(IMPORT_LABEL);
-	}
-	
-	public void deletePicture()
-	{
-		updateStatusBar(DELETE_LABEL);
-	}
-	
-	public void quitSoftware() {
-		updateStatusBar(QUIT_LABEL);
-		// TODO quit software
+		toolbarButton2 = new JButton("Button 2");
+		toolbarButton2.addActionListener(event -> statusBar.updateStatusBar("Toolbar button 2"));
+		
+		toolbarButton3 = new JButton("Button 3");
+		toolbarButton3.addActionListener(event -> statusBar.updateStatusBar("Toolbar button 3"));
+		
+		toolbar.add(toolbarButton1);
+		toolbar.add(toolbarButton2);
+		toolbar.add(toolbarButton3);
+		
+		return toolbar;
 	}
 	
 	public void sayHi() 
