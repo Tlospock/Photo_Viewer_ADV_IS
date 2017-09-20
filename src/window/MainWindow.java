@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
 public class MainWindow 
@@ -30,6 +31,9 @@ public class MainWindow
 	private JButton toolbarButton1;
 	private JButton toolbarButton2;
 	private JButton toolbarButton3;
+	
+	// Panel to display the photo
+	private JScrollPane scrollPaneContainer;
 	
 	public static void main(String args[])
 	{
@@ -58,6 +62,7 @@ public class MainWindow
 		window.add(statusBar.getStatusBar(), BorderLayout.PAGE_END);
 		window.add(toolbar, BorderLayout.LINE_START);
 		window.add(toolbar, BorderLayout.CENTER);
+		
 		/*
 		JButton sayHiButton = new JButton("Say hi button");
 		sayHiButton.addActionListener(new ActionListener()
