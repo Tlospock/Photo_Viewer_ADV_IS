@@ -3,9 +3,13 @@
  */
 package window;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -115,6 +119,22 @@ public class MenuBar extends JPanel {
 	public void importPicture()
 	{
 		statusBar.updateStatusBar(IMPORT_LABEL);
+		
+		JButton openButton = new JButton("Open a File...");
+		
+		final JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(new ImageFilter());
+		fc.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		int filePath = fc.showDialog(importMenuItem, "Open or import image");
+		
 	}
 	
 	public void deletePicture()
