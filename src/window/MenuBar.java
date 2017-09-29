@@ -131,7 +131,6 @@ public class MenuBar extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				photoComponent.setImageDisplayed(new ImagePhoto(fc.getSelectedFile().getAbsolutePath()));
-				photoComponent.paintComponent(getGraphics());
 			}
 		});
 		

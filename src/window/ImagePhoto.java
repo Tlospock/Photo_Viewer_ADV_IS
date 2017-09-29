@@ -5,6 +5,10 @@ package window;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * @author paul.meunier
@@ -25,6 +29,11 @@ public class ImagePhoto {
 	
 	public ImagePhoto(String pathTemp) {
 		path = pathTemp;
+		try {
+			this.setPhoto(ImageIO.read(new File(pathTemp)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

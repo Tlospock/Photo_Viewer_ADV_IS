@@ -19,6 +19,7 @@ import javax.swing.JComponent;
  */
 public class PhotoComponent extends JComponent {
 	
+	private static final long serialVersionUID = -4254579137288641770L;
 	private ImagePhoto imageDisplayed;
 	private boolean flipped;
 	private Object annotation;
@@ -27,7 +28,7 @@ public class PhotoComponent extends JComponent {
 	
 	public PhotoComponent() {
 		this.setSize(640, 480);
-		this.setPreferredSize(new Dimension(800, 600));
+		this.setPreferredSize(new Dimension(0, 0));
 		
 	}
 	
@@ -38,6 +39,7 @@ public class PhotoComponent extends JComponent {
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
+		this.drawBackGround();
 		if(imageDisplayed != null)
 		{
 			try {
@@ -47,8 +49,6 @@ public class PhotoComponent extends JComponent {
 				System.out.println("Image non trouvée");
 			}
 		}
-		// draw the image
-		
 	}
 	
 	/**
@@ -87,6 +87,7 @@ public class PhotoComponent extends JComponent {
 	 */
 	public void setImageDisplayed(ImagePhoto imageDisplayed) {
 		this.imageDisplayed = imageDisplayed;
+		repaint();
 	}
 
 	/**
