@@ -58,6 +58,9 @@ public class MenuBar extends JPanel {
 	// Reference to the statusBar
 	private StatusBar statusBar;
 	
+	// Reference to the component which displays the photos
+	private PhotoComponent photoComponent;
+	
 	public MenuBar()
 	{
 		// Create the menu bar
@@ -109,32 +112,31 @@ public class MenuBar extends JPanel {
 		menuBar.add(viewMenu);
 	}
 	
-	public MenuBar(StatusBar statusBarTemp, JFrame windowTemp)
+	public MenuBar(StatusBar statusBarTemp, JFrame windowTemp, PhotoComponent photoComponentTemp)
 	{
 		this();
 		setStatusBar(statusBarTemp);
 		setWindow(windowTemp);
+		setPhotoComponent(photoComponentTemp);
+		
 	}
 	
 	public void importPicture()
 	{
-		statusBar.updateStatusBar(IMPORT_LABEL);
-		
 		JButton openButton = new JButton("Open a File...");
 		
 		final JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new ImageFilter());
 		fc.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				photoComponent.setImageDisplayed(new ImagePhoto(fc.getSelectedFile().getAbsolutePath()));
+				photoComponent.paintComponent(getGraphics());
 			}
 		});
 		
 		int filePath = fc.showDialog(importMenuItem, "Open or import image");
-		
+		statusBar.updateStatusBar(IMPORT_LABEL + "fc.getSelectedFile().getAbsolutePath()");
 	}
 	
 	public void deletePicture()
@@ -318,6 +320,19 @@ public class MenuBar extends JPanel {
 	public void setStatusBar(StatusBar statusBar) {
 		this.statusBar = statusBar;
 	}
-	
+
+	/**
+	 * @return the photoComponent
+	 */
+	public PhotoComponent getPhotoComponent() {
+		return photoComponent;
+	}
+
+	/**
+	 * @param photoComponent the photoComponent to set
+	 */
+	public void setPhotoComponent(PhotoComponent photoComponent) {
+		this.photoComponent = photoComponent;
+	}
 	
 }

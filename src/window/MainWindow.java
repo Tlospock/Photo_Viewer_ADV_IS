@@ -15,9 +15,6 @@ public class MainWindow
 	// Main window
 	private JFrame window;
 	
-	// Photo panel
-	private JPanel photoPanel;
-	
 	// Menu bar
 	private MenuBar menuBar;
 	
@@ -34,6 +31,7 @@ public class MainWindow
 	
 	// Panel to display the photo
 	private JScrollPane scrollPaneContainer;
+	private PhotoComponent photoComponent;
 	
 	public static void main(String args[])
 	{
@@ -50,18 +48,20 @@ public class MainWindow
 		window.setSize(200, 200);
 		window.setMinimumSize(new Dimension(200, 150));
 		
+		photoComponent = new PhotoComponent();
 		statusBar = new StatusBar();
-		menuBar = new MenuBar(statusBar, window);
+		menuBar = new MenuBar(statusBar, window, photoComponent);
 		toolbar = createToolbar();
 		
 		// Setup of the main panel
-		// TODO create another class
-		photoPanel = new JPanel();
+		
+		scrollPaneContainer = new JScrollPane(photoComponent);
 		
 		window.add(menuBar.getMenuBar(), BorderLayout.PAGE_START);
 		window.add(statusBar.getStatusBar(), BorderLayout.PAGE_END);
 		window.add(toolbar, BorderLayout.LINE_START);
-		window.add(toolbar, BorderLayout.CENTER);
+		
+		window.add(scrollPaneContainer, BorderLayout.CENTER);
 		
 		/*
 		JButton sayHiButton = new JButton("Say hi button");
@@ -106,5 +106,33 @@ public class MainWindow
 	public void sayBye() 
 	{
 		System.out.println("Baille");
+	}
+
+	/**
+	 * @return the window
+	 */
+	public JFrame getWindow() {
+		return window;
+	}
+
+	/**
+	 * @param window the window to set
+	 */
+	public void setWindow(JFrame window) {
+		this.window = window;
+	}
+
+	/**
+	 * @return the photoComponent
+	 */
+	public PhotoComponent getPhotoComponent() {
+		return photoComponent;
+	}
+
+	/**
+	 * @param photoComponent the photoComponent to set
+	 */
+	public void setPhotoComponent(PhotoComponent photoComponent) {
+		this.photoComponent = photoComponent;
 	}
 }
