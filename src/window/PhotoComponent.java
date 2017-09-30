@@ -23,13 +23,12 @@ public class PhotoComponent extends JComponent {
 	private ImagePhoto imageDisplayed;
 	private boolean flipped;
 	private Object annotation;
-	private Dimension size;
 	private Dimension preferedSize;
 	
 	public PhotoComponent() {
+		flipped = true;
 		this.setSize(640, 480);
 		this.setPreferredSize(new Dimension(0, 0));
-		
 	}
 	
 	/**
@@ -40,14 +39,10 @@ public class PhotoComponent extends JComponent {
 	{
 		super.paintComponent(g);
 		this.drawBackGround();
-		if(imageDisplayed != null)
+		if(imageDisplayed != null && flipped)
 		{
-			try {
-				imageDisplayed.setPhoto(ImageIO.read(new File(imageDisplayed.getPath())));
-				g.drawImage(imageDisplayed.getPhoto(), 0, 0, this);
-			} catch (IOException e) {
-				System.out.println("Image non trouvée");
-			}
+			System.out.println("pouet");
+			g.drawImage(imageDisplayed.getPhoto(), this.getX(), this.getY(), this);
 		}
 	}
 	
@@ -56,7 +51,7 @@ public class PhotoComponent extends JComponent {
 	 */
 	public void drawBackGround() 
 	{
-		
+		// TODO
 	}
 	
 	/**
@@ -64,7 +59,7 @@ public class PhotoComponent extends JComponent {
 	 */
 	public void redrawAnnotationSide()
 	{
-		
+		// TODO
 	}
 	
 	/**
@@ -72,7 +67,7 @@ public class PhotoComponent extends JComponent {
 	 */
 	public void redrawPhotoSide()
 	{
-		
+		// TODO
 	}
 
 	/**
@@ -87,7 +82,14 @@ public class PhotoComponent extends JComponent {
 	 */
 	public void setImageDisplayed(ImagePhoto imageDisplayed) {
 		this.imageDisplayed = imageDisplayed;
-		repaint();
+		if(imageDisplayed != null)
+		{
+			System.out.println(this.getX() + " | " + this.getY());
+			System.out.println(imageDisplayed.getPhoto().getWidth(null) + " | " + imageDisplayed.getPhoto().getHeight(null));
+			this.setPreferredSize(new Dimension(imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null)));
+			this.revalidate();
+			repaint();
+		}
 	}
 
 	/**
@@ -116,20 +118,6 @@ public class PhotoComponent extends JComponent {
 	 */
 	public void setAnnotation(Object annotation) {
 		this.annotation = annotation;
-	}
-
-	/**
-	 * @return the size
-	 */
-	public Dimension getSize() {
-		return size;
-	}
-
-	/**
-	 * @param size the size to set
-	 */
-	public void setSize(Dimension size) {
-		this.size = size;
 	}
 
 	/**

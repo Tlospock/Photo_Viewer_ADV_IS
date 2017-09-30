@@ -135,7 +135,7 @@ public class MenuBar extends JPanel {
 		});
 		
 		int filePath = fc.showDialog(importMenuItem, "Open or import image");
-		statusBar.updateStatusBar(IMPORT_LABEL + "fc.getSelectedFile().getAbsolutePath()");
+		statusBar.updateStatusBar(IMPORT_LABEL + " " + fc.getSelectedFile().getAbsolutePath());
 	}
 	
 	public void deletePicture()
