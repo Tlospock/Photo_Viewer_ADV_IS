@@ -3,6 +3,8 @@
  */
 package window;
 
+// https://perso.telecom-paristech.fr/eagan/class/advUI/labs/lab1
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.File;
@@ -51,6 +53,10 @@ public class PhotoComponent extends JComponent {
 	 */
 	public void drawBackGround() 
 	{
+		// TODO
+	}
+	
+	public void flipPhotoComponent() {
 		// TODO
 	}
 	
