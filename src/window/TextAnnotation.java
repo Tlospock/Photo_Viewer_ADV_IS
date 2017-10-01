@@ -3,10 +3,10 @@
  */
 package window;
 
+import java.awt.Graphics;
 import java.awt.Point;
 
 import javax.swing.JComponent;
-import javax.swing.JTextField;
 
 /**
  * @author paul.meunier
@@ -22,6 +22,7 @@ public class TextAnnotation implements Annotation{
 	public TextAnnotation()
 	{
 		userAnnotation = new String("");
+		startPosition = new Point(0, 0);
 	}
 	
 	/**
@@ -36,9 +37,8 @@ public class TextAnnotation implements Annotation{
 	}
 
 	@Override
-	public JTextField drawAnnotation(Point position, JComponent parent) {
-		JTextField inputField = new JTextField();
+	public void drawAnnotation(Point position, JComponent parent, Graphics g) {
 		
-		return inputField;
+		
 	}
 }

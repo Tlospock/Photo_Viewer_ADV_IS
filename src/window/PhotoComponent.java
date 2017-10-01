@@ -46,13 +46,13 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		this.drawBackGround();
+
 		if(imageDisplayed != null && !flipped)
 		{
 			g.drawImage(imageDisplayed.getPhoto(), this.getX(), this.getY(), this);
 		} else if (imageDisplayed != null && flipped)
 		{
-			g.drawRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
+			this.drawBackGround(g);
 			this.drawAllAnnotation(g);
 		}
 	}
@@ -60,9 +60,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	/**
 	 * Draw the background of the photo component
 	 */
-	public void drawBackGround() 
+	public void drawBackGround(Graphics g) 
 	{
-		// TODO
+		g.drawRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
 	}
 	
 	/**
@@ -73,22 +73,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		flipped = !flipped;
 		this.revalidate();
 		repaint();
-	}
-	
-	/**
-	 * Used to redraw the annotation side
-	 */
-	public void redrawAnnotationSide()
-	{
-		// TODO
-	}
-	
-	/**
-	 * Used to redraw the photo side
-	 */
-	public void redrawPhotoSide()
-	{
-		// TODO
 	}
 
 	/**
@@ -118,7 +102,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		// TODO
 		for(Annotation a: annotationList)
 		{
-			a.drawAnnotation(firstClick, this);
+			a.drawAnnotation(firstClick, this, g);
 		}
 	}
 	
