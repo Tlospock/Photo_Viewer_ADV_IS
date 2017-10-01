@@ -30,7 +30,6 @@ public class ImagePhoto {
 	public ImagePhoto(String pathTemp) {
 		path = pathTemp;
 		try {
-			
 			this.setPhoto(ImageIO.read(new File(pathTemp)));
 			System.out.println(pathTemp);
 		} catch (IOException e) {

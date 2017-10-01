@@ -7,30 +7,34 @@ package window;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.lang.annotation.Inherited;
 
-import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 /**
  * @author paul.meunier
  *
  */
-public class PhotoComponent extends JComponent {
+public class PhotoComponent extends JComponent implements MouseListener, MouseMotionListener{
 	
 	private static final long serialVersionUID = -4254579137288641770L;
 	private ImagePhoto imageDisplayed;
 	private boolean flipped;
 	private Object annotation;
 	private Dimension preferedSize;
+	private Point firstClick;
 	
 	public PhotoComponent() {
-		flipped = true;
+		flipped = false;
 		this.setSize(640, 480);
 		this.setPreferredSize(new Dimension(0, 0));
+		addMouseMotionListener(this);
+		addMouseListener(this);
+		firstClick = new Point(0, 0);
 	}
 	
 	/**
@@ -41,10 +45,12 @@ public class PhotoComponent extends JComponent {
 	{
 		super.paintComponent(g);
 		this.drawBackGround();
-		if(imageDisplayed != null && flipped)
+		if(imageDisplayed != null && !flipped)
 		{
-			System.out.println("pouet");
 			g.drawImage(imageDisplayed.getPhoto(), this.getX(), this.getY(), this);
+		} else if (imageDisplayed != null && flipped)
+		{
+			g.drawRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
 		}
 	}
 	
@@ -61,7 +67,9 @@ public class PhotoComponent extends JComponent {
 	 * flipendo!
 	 */
 	public void flipPhotoComponent() {
-		// TODO
+		flipped = !flipped;
+		this.revalidate();
+		repaint();
 	}
 	
 	/**
@@ -142,6 +150,45 @@ public class PhotoComponent extends JComponent {
 	 */
 	public void setPreferedSize(Dimension preferedSize) {
 		this.preferedSize = preferedSize;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// EMPTY
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// EMPTY	
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// EMPTY
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// EMPTY
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// EMPTY
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		firstClick.setLocation(e.getX(), e.getY());
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if(Math.sqrt(Math.pow(e.getX()-firstClick.x, 2)+ Math.pow(e.getY()-firstClick.y, 2)) > 10)
+		{
+			this.flipPhotoComponent();
+			System.out.println("Flipped");
+		}
 	}
 	
 }
