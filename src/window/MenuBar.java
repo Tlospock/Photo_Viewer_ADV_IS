@@ -130,12 +130,13 @@ public class MenuBar extends JPanel {
 		fc.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				photoComponent.setImageDisplayed(new ImagePhoto(fc.getSelectedFile().getAbsolutePath()));
+				if(fc.getSelectedFile() != null)
+					photoComponent.setImageDisplayed(new ImagePhoto(fc.getSelectedFile().getAbsolutePath()));
 			}
 		});
 		
 		int filePath = fc.showDialog(importMenuItem, "Open or import image");
-		if(fc == null)
+		if(fc.getSelectedFile() != null)
 			statusBar.updateStatusBar(IMPORT_LABEL + " " + fc.getSelectedFile().getAbsolutePath());
 		else
 			statusBar.updateStatusBar("Import aborted");

@@ -22,11 +22,15 @@ import javax.swing.JComponent;
 public class PhotoComponent extends JComponent implements MouseListener, MouseMotionListener{
 	
 	private static final long serialVersionUID = -4254579137288641770L;
+	
+	public static double DOUBLE_CLICK_TIME_LIMIT = 300.0;
+	
 	private ImagePhoto imageDisplayed;
 	private boolean flipped;
 	private Object annotation;
 	private Dimension preferedSize;
-	private Point firstClick;
+	private Point lastPressed;
+	private double dateLastClick;
 	private List<Annotation> annotationList;
 	
 	public PhotoComponent() {
@@ -35,7 +39,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		this.setPreferredSize(new Dimension(0, 0));
 		addMouseMotionListener(this);
 		addMouseListener(this);
-		firstClick = new Point(0, 0);
+		lastPressed = new Point(0, 0);
 		annotationList = new ArrayList<Annotation>();
 	}
 	
@@ -102,7 +106,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		// TODO
 		for(Annotation a: annotationList)
 		{
-			a.drawAnnotation(firstClick, this, g);
+			a.drawAnnotation(lastPressed, this, g);
 		}
 	}
 	
@@ -175,16 +179,22 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		firstClick.setLocation(e.getX(), e.getY());
+		lastPressed.setLocation(e.getX(), e.getY());
+		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(Math.sqrt(Math.pow(e.getX()-firstClick.x, 2)+ Math.pow(e.getY()-firstClick.y, 2)) > 10)
+		if(System.currentTimeMillis() - dateLastClick < DOUBLE_CLICK_TIME_LIMIT)
 		{
 			this.flipPhotoComponent();
-			System.out.println("Flipped");
 		}
+		else
+		{
+			
+		}
+		
+		dateLastClick = System.currentTimeMillis();
 	}
 	
 }
