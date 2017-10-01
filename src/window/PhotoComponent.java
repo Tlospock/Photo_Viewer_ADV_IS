@@ -56,6 +56,10 @@ public class PhotoComponent extends JComponent {
 		// TODO
 	}
 	
+	/**
+	 * flip the photo component
+	 * flipendo!
+	 */
 	public void flipPhotoComponent() {
 		// TODO
 	}
