@@ -3,8 +3,6 @@
  */
 package window;
 
-// https://perso.telecom-paristech.fr/eagan/class/advUI/labs/lab1
-
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -12,6 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.lang.annotation.Inherited;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 
@@ -27,6 +27,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	private Object annotation;
 	private Dimension preferedSize;
 	private Point firstClick;
+	private List<Annotation> annotationList;
 	
 	public PhotoComponent() {
 		flipped = false;
@@ -35,6 +36,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		firstClick = new Point(0, 0);
+		annotationList = new ArrayList<Annotation>();
 	}
 	
 	/**
@@ -51,6 +53,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		} else if (imageDisplayed != null && flipped)
 		{
 			g.drawRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
+			this.drawAllAnnotation(g);
 		}
 	}
 	
@@ -110,6 +113,15 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		}
 	}
 
+	public void drawAllAnnotation(Graphics g)
+	{
+		// TODO
+		for(Annotation a: annotationList)
+		{
+			a.drawAnnotation(firstClick, this);
+		}
+	}
+	
 	/**
 	 * @return the flipped
 	 */
