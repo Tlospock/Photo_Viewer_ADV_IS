@@ -23,6 +23,11 @@ import javax.swing.JRadioButtonMenuItem;
  */
 public class MenuBar extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3190204605148399655L;
+
 	// Fenetre principale
 	private JFrame window;
 	

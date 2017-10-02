@@ -1,0 +1,5 @@
+reste à faire:
+toutes les annotations
+evenements clviers fonctionnent pas
+ajouter le setter pour les strokes du path
+setClip non fonctionnel

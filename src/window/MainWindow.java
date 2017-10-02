@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
@@ -45,12 +44,14 @@ public class MainWindow
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// BorderLayout, getToolBar? getContentBar?
 		window.getContentPane().setLayout(new BorderLayout());
-		window.setSize(200, 200);
+		window.setSize(500, 500);
 		window.setMinimumSize(new Dimension(200, 150));
 		
 		photoComponent = new PhotoComponent();
 		statusBar = new StatusBar();
 		menuBar = new MenuBar(statusBar, window, photoComponent);
+		photoComponent.setStatusBar(statusBar);
+		
 		toolbar = createToolbar();
 		
 		// Setup of the main panel
@@ -135,4 +136,12 @@ public class MainWindow
 	public void setPhotoComponent(PhotoComponent photoComponent) {
 		this.photoComponent = photoComponent;
 	}
+
+	/**
+	 * @return the statusBar
+	 */
+	public StatusBar getStatusBar() {
+		return statusBar;
+	}
+	
 }

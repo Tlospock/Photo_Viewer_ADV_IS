@@ -3,9 +3,13 @@
  */
 package window;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -19,19 +23,31 @@ import javax.swing.JComponent;
  * @author paul.meunier
  *
  */
-public class PhotoComponent extends JComponent implements MouseListener, MouseMotionListener{
+public class PhotoComponent extends JComponent implements MouseListener, MouseMotionListener, KeyListener{
 	
 	private static final long serialVersionUID = -4254579137288641770L;
 	
 	public static double DOUBLE_CLICK_TIME_LIMIT = 300.0;
+	/** MAX_DISTANCE_BETWEEN_PRESS_AND_RELEASE_FOR_SINGLE_CLICK */
+	public static int MAX_DISTANCE_SINGLE_CLICK = 10;
+	/** smallest distance from the right ledge where you can type */
+	public static int SMALLEST_DISTANCE_LEDGE = 20;
 	
 	private ImagePhoto imageDisplayed;
 	private boolean flipped;
 	private Object annotation;
 	private Dimension preferedSize;
-	private Point lastPressed;
+	private Point lastCursorPosition;
 	private double dateLastClick;
 	private List<Annotation> annotationList;
+	private StatusBar statusBar;
+	private TextAnnotation currentTextAnnotation = null;
+	private StrokeAnnotation currentStrokeAnnotation = null;
+	
+	/** Indicate the status of the current text annotation, 0 for no entry point, 
+	 * 1 for entry point and no key typed, 2 for entry point and at least 1 key typed
+	 */
+	private int typingState = 0;
 	
 	public PhotoComponent() {
 		flipped = false;
@@ -39,7 +55,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		this.setPreferredSize(new Dimension(0, 0));
 		addMouseMotionListener(this);
 		addMouseListener(this);
-		lastPressed = new Point(0, 0);
+		addKeyListener(this);
+		lastCursorPosition = new Point(0, 0);
+		dateLastClick = System.currentTimeMillis();
 		annotationList = new ArrayList<Annotation>();
 	}
 	
@@ -50,13 +68,15 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-
 		if(imageDisplayed != null && !flipped)
 		{
 			g.drawImage(imageDisplayed.getPhoto(), this.getX(), this.getY(), this);
-		} else if (imageDisplayed != null && flipped)
+		}
+		else if (imageDisplayed != null && flipped)
 		{
 			this.drawBackGround(g);
+			g.setFont(new Font("Arial", Font.BOLD, 30));
+			g.setColor(new Color(0, 0, 0));
 			this.drawAllAnnotation(g);
 		}
 	}
@@ -66,6 +86,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	 */
 	public void drawBackGround(Graphics g) 
 	{
+		// White
+		g.setColor(new Color(255, 255, 255));
+		g.fillRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
+		g.setClip(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
 		g.drawRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
 	}
 	
@@ -103,10 +127,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
 	public void drawAllAnnotation(Graphics g)
 	{
-		// TODO
 		for(Annotation a: annotationList)
 		{
-			a.drawAnnotation(lastPressed, this, g);
+			a.drawAnnotation(lastCursorPosition, this, g, imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
 		}
 	}
 	
@@ -154,7 +177,13 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// EMPTY
+		if(currentStrokeAnnotation == null)
+		{
+			currentStrokeAnnotation = new StrokeAnnotation(lastCursorPosition);
+			annotationList.add(currentStrokeAnnotation);
+		}
+		currentStrokeAnnotation.addPointToStroke(e.getPoint());
+		repaint();
 	}
 
 	@Override
@@ -179,8 +208,13 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		lastPressed.setLocation(e.getX(), e.getY());
-		
+		typingState = 0;
+		currentTextAnnotation = null;
+		if(flipped)
+			getStatusBar().updateStatusBar("Mouse pressed");
+		else
+			getStatusBar().updateStatusBar("Photo state");
+		lastCursorPosition.setLocation(e.getX(), e.getY());
 	}
 
 	@Override
@@ -189,12 +223,64 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		{
 			this.flipPhotoComponent();
 		}
-		else
+		else if(Math.sqrt(Math.pow(e.getX()-lastCursorPosition.getX(), 2) + Math.pow(e.getY()-lastCursorPosition.getY(), 2)) < MAX_DISTANCE_SINGLE_CLICK  && flipped)
 		{
-			
+			if(this.getWidth() - lastCursorPosition.getX() < SMALLEST_DISTANCE_LEDGE)
+			{
+				System.out.println("Too close to right ledge");
+				getStatusBar().updateStatusBar("Too close to the right ledge");
+			}
+			else
+			{
+				typingState = 1;
+				getStatusBar().updateStatusBar("Entered typing state");
+				requestFocus();
+			}
 		}
 		
+		currentStrokeAnnotation = null;
 		dateLastClick = System.currentTimeMillis();
+	}
+	
+	/**
+	 * @return the statusBar
+	 */
+	public StatusBar getStatusBar() {
+		return statusBar;
+	}
+
+	/**
+	 * @param statusBar the statusBar to set
+	 */
+	public void setStatusBar(StatusBar statusBar) {
+		this.statusBar = statusBar;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// Auto-generated method stub
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// Auto-generated method stub
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		char toType = e.getKeyChar();
+		
+		if(typingState == 1)
+		{
+			currentTextAnnotation = new TextAnnotation(String.valueOf(toType), lastCursorPosition);
+			annotationList.add(currentTextAnnotation);
+			typingState = 2;
+		}
+		else if (typingState == 2 && lastCursorPosition != null)
+		{
+			currentTextAnnotation.setUserAnnotation(currentTextAnnotation.getUserAnnotation() + toType);
+		}
+		this.repaint();
 	}
 	
 }
