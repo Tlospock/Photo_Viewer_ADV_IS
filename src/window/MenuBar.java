@@ -142,7 +142,11 @@ public class MenuBar extends JPanel {
 		
 		int filePath = fc.showDialog(importMenuItem, "Open or import image");
 		if(fc.getSelectedFile() != null)
+		{
 			statusBar.updateStatusBar(IMPORT_LABEL + " " + fc.getSelectedFile().getAbsolutePath());
+			photoComponent = new PhotoComponent();
+			photoComponent.setStatusBar(getStatusBar());
+		}
 		else
 			statusBar.updateStatusBar("Import aborted");
 	}
