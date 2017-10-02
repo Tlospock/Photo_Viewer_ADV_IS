@@ -147,7 +147,6 @@ public class MenuBar extends JPanel {
 			statusBar.updateStatusBar(IMPORT_LABEL + " " + fc.getSelectedFile().getAbsolutePath());
 			photoComponent = new PhotoComponent();
 			photoComponent.setStatusBar(getStatusBar());
-			photoComponent.setOriginalImageDimension(new Dimension(photoComponent.getImageDisplayed().getPhoto().getWidth(null), photoComponent.getImageDisplayed().getPhoto().getHeight(null)));
 		}
 		else
 			statusBar.updateStatusBar("Import aborted");

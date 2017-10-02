@@ -7,16 +7,23 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
@@ -33,6 +40,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	public static int MAX_DISTANCE_SINGLE_CLICK = 10;
 	/** smallest distance from the right ledge where you can type */
 	public static int SMALLEST_DISTANCE_LEDGE = 20;
+	/** The maximum edge of the animation */
+	public static int ANIMATION_MAXIMUM_EDGE = 100;
+	
 	
 	private ImagePhoto imageDisplayed;
 	private boolean flipped;
@@ -46,7 +56,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	private StrokeAnnotation currentStrokeAnnotation = null;
 	private Timer timer;
 	private int currentAngle;
-	private Dimension originalImageDimension;
+	private Image animationImage;
+	private boolean middleAnimationEdgeReached = false;
 	
 	/** Indicate the status of the current text annotation, 0 for no entry point, 
 	 * 1 for entry point and no key typed, 2 for entry point and at least 1 key typed
@@ -63,9 +74,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		lastCursorPosition = new Point(0, 0);
 		dateLastClick = System.currentTimeMillis();
 		annotationList = new ArrayList<Annotation>();
-		timer = new Timer(40, event -> this.flipPhotoComponent());
-		currentAngle = 0;
-		originalImageDimension = new Dimension(0, 0);
+		timer = new Timer(5, event -> this.flipPhotoComponent());
+		currentAngle = PhotoComponent.ANIMATION_MAXIMUM_EDGE;
 	}
 	
 	/**
@@ -77,7 +87,16 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		super.paintComponent(g);
 		if(imageDisplayed != null && !flipped)
 		{
-			g.drawImage(imageDisplayed.getPhoto(), this.getX(), this.getY(), this);
+			double w = getImageDisplayed().getPhoto().getWidth(null);
+			double h = getImageDisplayed().getPhoto().getHeight(null)*((double)currentAngle/(double)PhotoComponent.ANIMATION_MAXIMUM_EDGE);
+			animationImage = new BufferedImage((int)w, (int)h, BufferedImage.TYPE_INT_ARGB);
+			
+			AffineTransform affineTransform = new AffineTransform();
+			affineTransform.scale(1, (double)currentAngle/(double)PhotoComponent.ANIMATION_MAXIMUM_EDGE);
+			AffineTransformOp scaleOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BILINEAR);
+			animationImage = scaleOp.filter((BufferedImage)getImageDisplayed().getPhoto(), (BufferedImage)animationImage);
+			
+			g.drawImage(animationImage, this.getX(), this.getY(), this);
 		}
 		else if (imageDisplayed != null && flipped)
 		{
@@ -96,9 +115,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	{
 		// White
 		g.setColor(new Color(255, 255, 255));
-		g.fillRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
-		g.setClip(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
-		g.drawRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
+		g.fillRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null)*(currentAngle/PhotoComponent.ANIMATION_MAXIMUM_EDGE));
+		g.setClip(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null)*(currentAngle/PhotoComponent.ANIMATION_MAXIMUM_EDGE));
+		g.drawRect(this.getX(), this.getY(), imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null)*(currentAngle/PhotoComponent.ANIMATION_MAXIMUM_EDGE));
 	}
 	
 	/**
@@ -106,15 +125,23 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	 * flipendo!
 	 */
 	public void flipPhotoComponent() {
-		if(currentAngle >= 180)
+		if(currentAngle <= 1 && !middleAnimationEdgeReached)
 		{
+			middleAnimationEdgeReached = true;
 			flipped = !flipped;
-			currentAngle = 0;
 		}
-		else
+		else if (currentAngle >= PhotoComponent.ANIMATION_MAXIMUM_EDGE && middleAnimationEdgeReached)
 		{
+			timer.stop();
+			middleAnimationEdgeReached = false;
+			currentAngle = PhotoComponent.ANIMATION_MAXIMUM_EDGE;
 			
 		}
+		else if (middleAnimationEdgeReached)
+			currentAngle += 1;
+		else if (!middleAnimationEdgeReached)
+			currentAngle -=1;
+		System.out.println("Animate");
 		this.revalidate();
 		repaint();
 	}
@@ -236,8 +263,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if(System.currentTimeMillis() - dateLastClick < DOUBLE_CLICK_TIME_LIMIT)
-		{
-			this.flipPhotoComponent();
+		{   
+			currentAngle = PhotoComponent.ANIMATION_MAXIMUM_EDGE;
+			timer.start();
 		}
 		else if(Math.sqrt(Math.pow(e.getX()-lastCursorPosition.getX(), 2) + Math.pow(e.getY()-lastCursorPosition.getY(), 2)) < MAX_DISTANCE_SINGLE_CLICK  && flipped)
 		{
@@ -297,14 +325,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 			currentTextAnnotation.setUserAnnotation(currentTextAnnotation.getUserAnnotation() + toType);
 		}
 		this.repaint();
-	}
-
-	public Dimension getOriginalImageDimension() {
-		return originalImageDimension;
-	}
-
-	public void setOriginalImageDimension(Dimension originalImageDimension) {
-		this.originalImageDimension = originalImageDimension;
 	}
 	
 }
