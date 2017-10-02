@@ -44,8 +44,8 @@ public class MainWindow
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// BorderLayout, getToolBar? getContentBar?
 		window.getContentPane().setLayout(new BorderLayout());
-		window.setSize(500, 500);
 		window.setMinimumSize(new Dimension(200, 150));
+		window.setSize(800, 800);
 		
 		photoComponent = new PhotoComponent();
 		statusBar = new StatusBar();

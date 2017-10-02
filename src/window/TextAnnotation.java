@@ -15,8 +15,8 @@ import java.awt.Point;
 public class TextAnnotation implements Annotation{
 	private String userAnnotation;
 	private Point startPosition;
-	private Font font;
-	private Color color;
+	private Font font = new Font("Arial", Font.PLAIN, 12);
+	private Color color = new Color(1, 1, 1);
 	
 	/**
 	 * Default constructor
@@ -25,8 +25,6 @@ public class TextAnnotation implements Annotation{
 	{
 		userAnnotation = new String();
 		startPosition = new Point(0, 0);
-		font = new Font("Arial", Font.PLAIN, 12);
-		color = new Color(0, 0, 0);
 	}
 	
 	/**
@@ -136,6 +134,16 @@ public class TextAnnotation implements Annotation{
 	 */
 	public void setStartPosition(Point startPosition) {
 		this.startPosition = startPosition;
+	}
+
+	@Override
+	public Font getFont() {
+		return font;
+	}
+
+	@Override
+	public Color getColor() {
+		return color;
 	}
 	
 }

@@ -51,8 +51,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	
 	public PhotoComponent() {
 		flipped = false;
-		this.setSize(640, 480);
-		this.setPreferredSize(new Dimension(0, 0));
+		this.setPreferredSize(new Dimension(800, 600));
+		this.setSize(new Dimension(0, 0));
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		addKeyListener(this);
@@ -78,6 +78,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 			g.setFont(new Font("Arial", Font.BOLD, 30));
 			g.setColor(new Color(0, 0, 0));
 			this.drawAllAnnotation(g);
+			System.out.println("RED: " + g.getColor().getRed());
 		}
 	}
 	
@@ -117,8 +118,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		this.imageDisplayed = imageDisplayed;
 		if(imageDisplayed != null)
 		{
-			System.out.println(this.getX() + " | " + this.getY());
-			System.out.println(imageDisplayed.getPhoto().getWidth(null) + " | " + imageDisplayed.getPhoto().getHeight(null));
 			this.setPreferredSize(new Dimension(imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null)));
 			this.revalidate();
 			repaint();
@@ -129,6 +128,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	{
 		for(Annotation a: annotationList)
 		{
+			g.setColor(a.getColor());
+			g.setFont(a.getFont());
 			a.drawAnnotation(lastCursorPosition, this, g, imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
 		}
 	}
@@ -211,7 +212,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		typingState = 0;
 		currentTextAnnotation = null;
 		if(flipped)
-			getStatusBar().updateStatusBar("Mouse pressed");
+			getStatusBar().updateStatusBar("Waiting for annotation");
 		else
 			getStatusBar().updateStatusBar("Photo state");
 		lastCursorPosition.setLocation(e.getX(), e.getY());
