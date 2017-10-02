@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
@@ -29,6 +30,7 @@ public class MainWindow
 	private JButton toolbarButton3;
 	
 	// Panel to display the photo
+	private JPanel fontColorToolbar;
 	private JScrollPane scrollPaneContainer;
 	private PhotoComponent photoComponent;
 	

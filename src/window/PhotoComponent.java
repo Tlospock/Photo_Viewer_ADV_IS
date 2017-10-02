@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.Timer;
 
 /**
  * @author paul.meunier
@@ -43,6 +44,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	private StatusBar statusBar;
 	private TextAnnotation currentTextAnnotation = null;
 	private StrokeAnnotation currentStrokeAnnotation = null;
+	private Timer timer;
+	private int currentAngle;
+	private Dimension originalImageDimension;
 	
 	/** Indicate the status of the current text annotation, 0 for no entry point, 
 	 * 1 for entry point and no key typed, 2 for entry point and at least 1 key typed
@@ -59,6 +63,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		lastCursorPosition = new Point(0, 0);
 		dateLastClick = System.currentTimeMillis();
 		annotationList = new ArrayList<Annotation>();
+		timer = new Timer(40, event -> this.flipPhotoComponent());
+		currentAngle = 0;
+		originalImageDimension = new Dimension(0, 0);
 	}
 	
 	/**
@@ -99,7 +106,15 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	 * flipendo!
 	 */
 	public void flipPhotoComponent() {
-		flipped = !flipped;
+		if(currentAngle >= 180)
+		{
+			flipped = !flipped;
+			currentAngle = 0;
+		}
+		else
+		{
+			
+		}
 		this.revalidate();
 		repaint();
 	}
@@ -282,6 +297,14 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 			currentTextAnnotation.setUserAnnotation(currentTextAnnotation.getUserAnnotation() + toType);
 		}
 		this.repaint();
+	}
+
+	public Dimension getOriginalImageDimension() {
+		return originalImageDimension;
+	}
+
+	public void setOriginalImageDimension(Dimension originalImageDimension) {
+		this.originalImageDimension = originalImageDimension;
 	}
 	
 }
