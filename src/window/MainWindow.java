@@ -30,7 +30,8 @@ public class MainWindow
 	private JButton toolbarButton3;
 	
 	// Panel to display the photo
-	private JPanel fontColorToolbar;
+	private JPanel workingArea;
+	private FontColorToolbar fontColorToolbar;
 	private JScrollPane scrollPaneContainer;
 	private PhotoComponent photoComponent;
 	
@@ -53,6 +54,11 @@ public class MainWindow
 		statusBar = new StatusBar();
 		menuBar = new MenuBar(statusBar, window, photoComponent);
 		photoComponent.setStatusBar(statusBar);
+		fontColorToolbar = new FontColorToolbar(photoComponent);
+		//fontColorToolbar.setSize(new Dimension(width, height));
+		
+		workingArea = new JPanel();
+		workingArea.setLayout(new BoxLayout(workingArea, BoxLayout.Y_AXIS));
 		
 		toolbar = createToolbar();
 		
@@ -64,7 +70,10 @@ public class MainWindow
 		window.add(statusBar.getStatusBar(), BorderLayout.PAGE_END);
 		window.add(toolbar, BorderLayout.LINE_START);
 		
-		window.add(scrollPaneContainer, BorderLayout.CENTER);
+		workingArea.add(fontColorToolbar);
+		workingArea.add(scrollPaneContainer);
+		
+		window.add(workingArea, BorderLayout.CENTER);
 		
 		/*
 		JButton sayHiButton = new JButton("Say hi button");

@@ -59,6 +59,11 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	private Image animationImage;
 	private boolean middleAnimationEdgeReached = false;
 	
+	// User preferences
+	private Color userTextColor = new Color(0, 0, 0);
+	private Font userFont = new Font("Arial", Font.PLAIN, 12);
+	private Color userPathColor = new Color(255, 0, 0);
+	
 	/** Indicate the status of the current text annotation, 0 for no entry point, 
 	 * 1 for entry point and no key typed, 2 for entry point and at least 1 key typed
 	 */
@@ -104,7 +109,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 			g.setFont(new Font("Arial", Font.BOLD, 30));
 			g.setColor(new Color(0, 0, 0));
 			this.drawAllAnnotation(g);
-			System.out.println("RED: " + g.getColor().getRed());
 		}
 	}
 	
@@ -127,6 +131,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	public void flipPhotoComponent() {
 		if(currentAngle <= 1 && !middleAnimationEdgeReached)
 		{
+			currentAngle = 1;
 			middleAnimationEdgeReached = true;
 			flipped = !flipped;
 		}
@@ -138,10 +143,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 			
 		}
 		else if (middleAnimationEdgeReached)
-			currentAngle += 1;
+			currentAngle += 3;
 		else if (!middleAnimationEdgeReached)
-			currentAngle -=1;
-		System.out.println("Animate");
+			currentAngle -=3;
 		this.revalidate();
 		repaint();
 	}
@@ -170,8 +174,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	{
 		for(Annotation a: annotationList)
 		{
-			g.setColor(a.getColor());
-			g.setFont(a.getFont());
 			a.drawAnnotation(lastCursorPosition, this, g, imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
 		}
 	}
@@ -217,12 +219,55 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	public void setPreferedSize(Dimension preferedSize) {
 		this.preferedSize = preferedSize;
 	}
+	
+	/**
+	 * @return the userTextColor
+	 */
+	public Color getUserTextColor() {
+		return userTextColor;
+	}
+
+	/**
+	 * @param userTextColor the userTextColor to set
+	 */
+	public void setUserTextColor(Color userTextColor) {
+		this.userTextColor = userTextColor;
+	}
+
+	/**
+	 * @return the userFont
+	 */
+	public Font getUserFont() {
+		return userFont;
+	}
+
+	/**
+	 * @param userFont the userFont to set
+	 */
+	public void setUserFont(Font userFont) {
+		this.userFont = userFont;
+	}
+
+	/**
+	 * @return the userPathColor
+	 */
+	public Color getUserPathColor() {
+		return userPathColor;
+	}
+
+	/**
+	 * @param userPathColor the userPathColor to set
+	 */
+	public void setUserPathColor(Color userPathColor) {
+		this.userPathColor = userPathColor;
+	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if(currentStrokeAnnotation == null)
 		{
 			currentStrokeAnnotation = new StrokeAnnotation(lastCursorPosition);
+			currentStrokeAnnotation.setColor(userPathColor);
 			annotationList.add(currentStrokeAnnotation);
 		}
 		currentStrokeAnnotation.addPointToStroke(e.getPoint());
@@ -317,6 +362,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		if(typingState == 1)
 		{
 			currentTextAnnotation = new TextAnnotation(String.valueOf(toType), lastCursorPosition);
+			currentTextAnnotation.setColor(userTextColor);
+			currentTextAnnotation.setFont(userFont);
 			annotationList.add(currentTextAnnotation);
 			typingState = 2;
 		}
@@ -326,5 +373,4 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		}
 		this.repaint();
 	}
-	
 }

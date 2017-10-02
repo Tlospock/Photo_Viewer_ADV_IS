@@ -145,5 +145,17 @@ public class TextAnnotation implements Annotation{
 	public Color getColor() {
 		return color;
 	}
+
+	@Override
+	public void setFont(Font fontTemp) {
+		this.font = fontTemp;
+		
+	}
+
+	@Override
+	public void setColor(Color colorTemp) {
+		this.color = colorTemp;
+		
+	}
 	
 }

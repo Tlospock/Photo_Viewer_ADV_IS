@@ -66,8 +66,7 @@ public class StrokeAnnotation extends JComponent implements Annotation{
 	@Override
 	public void drawAnnotation(Point position, PhotoComponent parent, Graphics g, double height, double width) {
 		Point previousPoint = new Point(strokes.get(0));
-		//g.setColor(color);
-		System.out.println("drawing strokeAnnotation");
+		g.setColor(color);
 		
 		for(int i = 1; i < strokes.size(); ++i)
 		{
@@ -81,5 +80,10 @@ public class StrokeAnnotation extends JComponent implements Annotation{
 		return color;
 	}
 
+	@Override
+	public void setColor(Color colorTemp) {
+		color = colorTemp;
+		
+	}
 	
 }
