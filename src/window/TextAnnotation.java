@@ -69,6 +69,14 @@ public class TextAnnotation implements Annotation{
 
 	}
 	
+	/**
+	 * Draw the char at the good position
+	 * @param toDraw
+	 * @param currentPosition
+	 * @param position
+	 * @param parent
+	 * @param g
+	 */
 	public void drawChar(char toDraw, Point currentPosition, Point position, PhotoComponent parent, Graphics g)
 	{
 		g.setColor(color);

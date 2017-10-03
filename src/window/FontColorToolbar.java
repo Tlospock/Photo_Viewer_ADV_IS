@@ -25,6 +25,10 @@ import javax.swing.JTextField;
  */
 public class FontColorToolbar extends JComponent {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5641079792513827671L;
 	public static String DEFAULT_FONT = "Arial";
 	public static int DEFAULT_FONT_SIZE = 12;
 	

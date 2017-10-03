@@ -3,13 +3,9 @@
  */
 package window;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Stroke;
-import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +22,6 @@ public class StrokeAnnotation extends JComponent implements Annotation{
 	private static final long serialVersionUID = 1L;
 	private List<Point> strokes;
 	private Color color = new Color(255, 0, 0);
-	private Stroke strokeDesign = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10.0f);
 	
 	
 	public StrokeAnnotation()

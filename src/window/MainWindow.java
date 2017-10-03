@@ -37,7 +37,7 @@ public class MainWindow
 	
 	public static void main(String args[])
 	{
-		new MainWindow("Say hi");
+		new MainWindow("Photo Viewer");
 	}
 	
 	public MainWindow(String title) 
@@ -108,16 +108,6 @@ public class MainWindow
 		toolbar.add(toolbarButton3);
 		
 		return toolbar;
-	}
-	
-	public void sayHi() 
-	{
-		System.out.println("Hey");
-	}
-	
-	public void sayBye() 
-	{
-		System.out.println("Baille");
 	}
 
 	/**

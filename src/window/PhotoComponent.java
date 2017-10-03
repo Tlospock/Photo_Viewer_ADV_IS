@@ -17,13 +17,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
@@ -170,6 +167,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		}
 	}
 
+	/**
+	 * Draw all annotations
+	 * @param g
+	 */
 	public void drawAllAnnotation(Graphics g)
 	{
 		for(Annotation a: annotationList)

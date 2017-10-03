@@ -3,13 +3,11 @@
  */
 package window;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -129,8 +127,6 @@ public class MenuBar extends JPanel {
 	
 	public void importPicture()
 	{
-		JButton openButton = new JButton("Open a File...");
-		
 		final JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new ImageFilter());
 		fc.addActionListener(new ActionListener() {
