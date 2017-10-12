@@ -3,6 +3,7 @@
  */
 package treeNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -19,6 +20,7 @@ public class TreeReference extends JComponent{
 	public TreeReference()
 	{
 		rootNode = new RootNode();
+		nodeList = new ArrayList<Node>();
 	}
 	
 }

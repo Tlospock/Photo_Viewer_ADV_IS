@@ -29,9 +29,37 @@ public abstract class Node {
 	
 	public void addChildren(Node childrenToAdd)
 	{
-		//TODO manageBounds
+		// TODO calculate bounds
 		
 		childrens.add(childrenToAdd);
+	}
+	
+	public void drawChildren()
+	{
+		this.draw();
+		for(Node n: childrens)
+			n.draw();
+	}
+	
+	public abstract void draw();
+	
+	/**
+	 * To remove a specific Node from the list of children
+	 * @param children the node to remove
+	 * @return a boolean which indicate if it has been removed or not
+	 */
+	public boolean removeChildren(Node children)
+	{
+		for(int i = 0; i < childrens.size(); ++i)
+		{
+			if(children.equals(childrens.get(i)))
+			{
+				childrens.remove(i);
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public boolean isDisplayed() {
@@ -40,6 +68,14 @@ public abstract class Node {
 
 	public void setDisplayed(boolean displayed) {
 		this.displayed = displayed;
+	}
+
+	public Rectangle2D getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle2D bounds) {
+		this.bounds = bounds;
 	}
 	
 }

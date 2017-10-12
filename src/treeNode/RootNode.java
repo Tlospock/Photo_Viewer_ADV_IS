@@ -13,5 +13,12 @@ public class RootNode extends Node{
 	{
 		super(null);
 	}
+
+	@Override
+	public void draw() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
