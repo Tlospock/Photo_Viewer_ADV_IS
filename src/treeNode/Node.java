@@ -27,13 +27,19 @@ public abstract class Node {
 		bounds = new Rectangle(0, 0, 0, 0);
 	}
 	
+	/**
+	 * Add a node to the list of children of the current node
+	 * @param childrenToAdd the node to add to the list
+	 */
 	public void addChildren(Node childrenToAdd)
 	{
-		// TODO calculate bounds
-		
-		childrens.add(childrenToAdd);
+		if(childrenToAdd != null && !childrenToAdd.equals(this))
+			childrens.add(childrenToAdd);
 	}
 	
+	/**
+	 * Draw all the children of a node
+	 */
 	public void drawChildren()
 	{
 		this.draw();
@@ -41,6 +47,9 @@ public abstract class Node {
 			n.draw();
 	}
 	
+	/**
+	 * Draw the node, relative to each type of node
+	 */
 	public abstract void draw();
 	
 	/**
