@@ -14,11 +14,11 @@ import java.util.List;
  */
 public abstract class Node {
 	
-	private Node parent;
-	private List<Node> childrens;
-	private Rectangle2D bounds;
+	protected Node parent;
+	protected List<Node> childrens;
+	protected Rectangle2D bounds;
 	
-	private boolean displayed;
+	protected boolean displayed;
 	
 	public Node(Node parentTemp)
 	{
