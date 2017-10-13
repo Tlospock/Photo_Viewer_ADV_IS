@@ -12,12 +12,12 @@ public class RootNode extends Node{
 	public RootNode()
 	{
 		super(null);
+		this.setBounds(null);
 	}
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
-		
+		super.drawChildren();
 	}
 
 	
