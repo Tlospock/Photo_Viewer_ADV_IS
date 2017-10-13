@@ -3,6 +3,8 @@
  */
 package treeNode;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -16,6 +18,13 @@ public abstract class Node {
 	
 	protected Node parent;
 	protected List<Node> childrens;
+	
+	private Color colorNode = new Color(0, 0, 0);
+	private Font font = new Font("Arial", Font.PLAIN, 12);
+	
+	/**
+	 * The bounds of the Node: the upper left coin of the rectangle is the starting point
+	 */
 	protected Rectangle2D bounds;
 	
 	protected boolean displayed;

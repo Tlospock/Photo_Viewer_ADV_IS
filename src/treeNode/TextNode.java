@@ -9,14 +9,17 @@ package treeNode;
  */
 public class TextNode extends Node{
 
+	private String toWrite;
+	
 	public TextNode(Node parentTemp) {
 		super(parentTemp);
-		// TODO Auto-generated constructor stub
+		toWrite = new String("");
 	}
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
+		super.drawChildren();
+		
 		
 	}
 
