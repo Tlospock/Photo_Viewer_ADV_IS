@@ -3,6 +3,10 @@
  */
 package treeNode;
 
+import java.awt.Graphics;
+
+import javax.swing.JComponent;
+
 /**
  * @author Tlos
  *
@@ -16,9 +20,8 @@ public class RootNode extends Node{
 	}
 
 	@Override
-	public void draw() {
-		super.drawChildren();
+	public void draw(Graphics g, JComponent panel) {
+		super.drawChildren(g, panel);
 	}
-
 	
 }

@@ -3,8 +3,10 @@
  */
 package treeNode;
 
+import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
+
+import javax.swing.JComponent;
 
 /**
  * @author Tlos
@@ -12,16 +14,19 @@ import java.awt.geom.Rectangle2D;
  */
 public class ContainerNode extends Node{
 
-	public ContainerNode(Node parentTemp) {
+	private JComponent parentPosition;
+	
+	public ContainerNode(Node parentTemp, JComponent parentPanel) {
 		super(parentTemp);
+		parentPosition = parentPanel;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void draw() {
-		super.drawChildren();
+	public void draw(Graphics g, JComponent panel) {
+		super.drawChildren(g, panel);
 	}
 	
 	/**
@@ -50,13 +55,14 @@ public class ContainerNode extends Node{
 	 */
 	public void updateBounds()
 	{
+		this.setBounds(new Rectangle(0, 0, 0, 0));
 		if(childrens.size() <= 0)
 		{
 			this.setBounds(null);
 			return;
 		}
 		
-		if(childrens.size() == 1)
+		if(this.getBounds() == null && childrens.size() >= 1)
 		{
 			this.setBounds(new Rectangle((Rectangle) childrens.get(0).getBounds()));
 			return;

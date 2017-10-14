@@ -5,10 +5,13 @@ package treeNode;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JComponent;
 
 /**
  * @author Tlos
@@ -19,11 +22,12 @@ public abstract class Node {
 	protected Node parent;
 	protected List<Node> childrens;
 	
-	private Color colorNode = new Color(0, 0, 0);
-	private Font font = new Font("Arial", Font.PLAIN, 12);
+	protected Color colorNode = new Color(0, 0, 0);
+	protected Font font = new Font("Arial", Font.PLAIN, 12);
 	
 	/**
-	 * The bounds of the Node: the upper left coin of the rectangle is the starting point
+	 * The bounds of the Node: the upper left coin of the rectangle is the starting point and 
+	 * is the offset from the parent container
 	 */
 	protected Rectangle2D bounds;
 	
@@ -49,18 +53,17 @@ public abstract class Node {
 	/**
 	 * Draw all the children of a node
 	 */
-	public void drawChildren()
+	public void drawChildren(Graphics g, JComponent panel)
 	{
-		this.draw();
 		for(Node n: childrens)
-			n.draw();
+			n.draw(g, panel);
 	}
 	
 	/**
 	 * Draw the node, relative to each type of node
 	 */
-	public abstract void draw();
-	
+	public abstract void draw(Graphics g, JComponent panel);
+
 	/**
 	 * To remove a specific Node from the list of children
 	 * @param children the node to remove
@@ -94,6 +97,62 @@ public abstract class Node {
 
 	public void setBounds(Rectangle2D bounds) {
 		this.bounds = bounds;
+	}
+
+	/**
+	 * @return the parent
+	 */
+	public Node getParent() {
+		return parent;
+	}
+
+	/**
+	 * @param parent the parent to set
+	 */
+	public void setParent(Node parent) {
+		this.parent = parent;
+	}
+
+	/**
+	 * @return the childrens
+	 */
+	public List<Node> getChildrens() {
+		return childrens;
+	}
+
+	/**
+	 * @param childrens the childrens to set
+	 */
+	public void setChildrens(List<Node> childrens) {
+		this.childrens = childrens;
+	}
+
+	/**
+	 * @return the colorNode
+	 */
+	public Color getColorNode() {
+		return colorNode;
+	}
+
+	/**
+	 * @param colorNode the colorNode to set
+	 */
+	public void setColorNode(Color colorNode) {
+		this.colorNode = colorNode;
+	}
+
+	/**
+	 * @return the font
+	 */
+	public Font getFont() {
+		return font;
+	}
+
+	/**
+	 * @param font the font to set
+	 */
+	public void setFont(Font font) {
+		this.font = font;
 	}
 	
 }
