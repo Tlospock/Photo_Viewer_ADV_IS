@@ -4,9 +4,12 @@
 package treeNode;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import javax.swing.JComponent;
+
+import window.PhotoComponent;
 
 /**
  * @author Tlos
@@ -25,8 +28,8 @@ public class ContainerNode extends Node{
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void draw(Graphics g, JComponent panel) {
-		super.drawChildren(g, panel);
+	public void draw(Point lastCursorPosition, Graphics g, PhotoComponent panel, int imageWidth, int imageHeight) {
+		super.drawChildren(lastCursorPosition, g, panel, imageWidth, imageHeight);
 	}
 	
 	/**

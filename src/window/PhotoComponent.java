@@ -24,6 +24,10 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
+import treeNode.PathNode;
+import treeNode.TextNode;
+import treeNode.TreeReference;
+
 /**
  * @author paul.meunier
  *
@@ -47,10 +51,18 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	private Dimension preferedSize;
 	private Point lastCursorPosition;
 	private double dateLastClick;
-	private List<Annotation> annotationList;
 	private StatusBar statusBar;
+	
+	// node version
+	private TreeReference treeReference;
+	private TextNode currentTextNode = null;
+	private PathNode currentPathNode = null;
+	
+	// previous version with annotation
+	private List<Annotation> annotationList;
 	private TextAnnotation currentTextAnnotation = null;
 	private StrokeAnnotation currentStrokeAnnotation = null;
+	
 	private Timer timer;
 	private int currentAngle;
 	private Image animationImage;
@@ -75,7 +87,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		addKeyListener(this);
 		lastCursorPosition = new Point(0, 0);
 		dateLastClick = System.currentTimeMillis();
+		
+		treeReference = new TreeReference(new Point((int) this.getX(), (int) this.getY()));
 		annotationList = new ArrayList<Annotation>();
+		
 		timer = new Timer(5, event -> this.flipPhotoComponent());
 		currentAngle = PhotoComponent.ANIMATION_MAXIMUM_EDGE;
 	}
@@ -173,10 +188,13 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	 */
 	public void drawAllAnnotation(Graphics g)
 	{
+		/*
 		for(Annotation a: annotationList)
 		{
 			a.drawAnnotation(lastCursorPosition, this, g, imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
 		}
+		*/
+		treeReference.drawAllNode(lastCursorPosition, g, this, imageDisplayed.getPhoto().getWidth(null), imageDisplayed.getPhoto().getHeight(null));
 	}
 	
 	/**
@@ -271,7 +289,18 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 			currentStrokeAnnotation.setColor(userPathColor);
 			annotationList.add(currentStrokeAnnotation);
 		}
+		
 		currentStrokeAnnotation.addPointToStroke(e.getPoint());
+		
+		if(currentPathNode == null)
+		{
+			currentPathNode = new PathNode(treeReference.getRootNode());
+			currentPathNode.setColorNode(userPathColor);
+			treeReference.getRootNode().addChildren(currentPathNode);
+		}
+		
+		currentPathNode.addPointToList(e.getPoint());;
+		
 		repaint();
 	}
 
@@ -298,7 +327,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		typingState = 0;
+		
 		currentTextAnnotation = null;
+		// TODOcurrentTextNode = null;
+		
 		if(flipped)
 			getStatusBar().updateStatusBar("Waiting for annotation");
 		else
@@ -329,6 +361,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 		}
 		
 		currentStrokeAnnotation = null;
+		currentPathNode = null;
+		
 		dateLastClick = System.currentTimeMillis();
 	}
 	
@@ -366,11 +400,23 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 			currentTextAnnotation.setColor(userTextColor);
 			currentTextAnnotation.setFont(userFont);
 			annotationList.add(currentTextAnnotation);
+			
+			// TODO Maj
+			
+			currentTextNode = new TextNode(lastCursorPosition, treeReference.getRootNode(), String.valueOf(toType));
+			currentTextNode.setColorNode(userTextColor);
+			currentTextNode.setFont(userFont);
+			treeReference.getRootNode().addChildren(currentTextNode);
+			
 			typingState = 2;
 		}
 		else if (typingState == 2 && lastCursorPosition != null)
 		{
 			currentTextAnnotation.setUserAnnotation(currentTextAnnotation.getUserAnnotation() + toType);
+			
+			// TODO Maj
+			
+			currentTextNode.setToWrite(currentTextNode.getToWrite() + toType);
 		}
 		this.repaint();
 	}

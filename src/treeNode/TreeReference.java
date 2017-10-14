@@ -8,6 +8,8 @@ import java.awt.Point;
 
 import javax.swing.JComponent;
 
+import window.PhotoComponent;
+
 /**
  * @author Tlos
  *
@@ -27,9 +29,9 @@ public class TreeReference extends JComponent{
 		this.upperLeftCorner = upperLeftTemp;
 	}
 	
-	public void drawAllNode(Graphics g)
+	public void drawAllNode(Point lastCursorPosition, Graphics g, PhotoComponent panel, int imageWidth, int imageHeight)
 	{
-		rootNode.draw(getGraphics(), this);
+		rootNode.draw(lastCursorPosition, g, panel, imageWidth, imageHeight);
 		
 	}
 

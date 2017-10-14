@@ -6,8 +6,6 @@ package treeNode;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import javax.swing.JComponent;
-
 import window.PhotoComponent;
 
 /**
@@ -18,16 +16,16 @@ public class TextNode extends Node{
 
 	private String toWrite;
 	
-	public TextNode(Node parentTemp) {
+	public TextNode(Point lastCursorPosition, Node parentTemp, String textTemp) {
 		super(parentTemp);
-		toWrite = new String("");
+		toWrite = new String(textTemp);
 	}
 
 	@Override
-	public void draw(Graphics g, JComponent panel) {
-		super.drawChildren(g, panel);
+	public void draw(Point lastCursorPosition, Graphics g, PhotoComponent panel, int imageWidth, int imageHeight) {
+		super.drawChildren(lastCursorPosition, g, panel, imageWidth, imageHeight);
 		
-		
+		this.drawAnnotation(lastCursorPosition, panel, g, (double)imageWidth, (double)imageHeight);
 	}
 
 	/**
@@ -106,6 +104,20 @@ public class TextNode extends Node{
 		}
 		
 		return cursorCurrentPosition;
+	}
+
+	/**
+	 * @return the toWrite
+	 */
+	public String getToWrite() {
+		return toWrite;
+	}
+
+	/**
+	 * @param toWrite the toWrite to set
+	 */
+	public void setToWrite(String toWrite) {
+		this.toWrite = toWrite;
 	}
 	
 }

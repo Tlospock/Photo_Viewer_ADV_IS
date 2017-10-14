@@ -6,12 +6,15 @@ package treeNode;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
+
+import window.PhotoComponent;
 
 /**
  * @author Tlos
@@ -53,16 +56,16 @@ public abstract class Node {
 	/**
 	 * Draw all the children of a node
 	 */
-	public void drawChildren(Graphics g, JComponent panel)
+	public void drawChildren(Point lastCursorPosition, Graphics g, PhotoComponent panel, int imageWidth, int imageHeight)
 	{
 		for(Node n: childrens)
-			n.draw(g, panel);
+			n.draw(lastCursorPosition, g, panel, imageWidth, imageHeight);
 	}
 	
 	/**
 	 * Draw the node, relative to each type of node
 	 */
-	public abstract void draw(Graphics g, JComponent panel);
+	public abstract void draw(Point lastCursorPosition, Graphics g, PhotoComponent panel, int imageWidth, int imageHeight);
 
 	/**
 	 * To remove a specific Node from the list of children
@@ -81,6 +84,12 @@ public abstract class Node {
 		}
 		
 		return false;
+	}
+	
+	public void translate(int xTranslation, int yTranslation)
+	{
+		this.setBounds(new Rectangle((int)this.getBounds().getX() + xTranslation, (int)this.getBounds().getY(), 
+				(int)this.getBounds().getWidth(), (int)this.getBounds().getHeight() ));
 	}
 	
 	public boolean isDisplayed() {
