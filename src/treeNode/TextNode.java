@@ -5,6 +5,7 @@ package treeNode;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import window.PhotoComponent;
 
@@ -19,6 +20,7 @@ public class TextNode extends Node{
 	public TextNode(Point lastCursorPosition, Node parentTemp, String textTemp) {
 		super(parentTemp);
 		toWrite = new String(textTemp);
+		this.setBounds(new Rectangle((int)lastCursorPosition.getX(), (int)lastCursorPosition.getY(), 1, 1));
 	}
 
 	@Override
@@ -90,7 +92,6 @@ public class TextNode extends Node{
 		int charSize = g.getFontMetrics().charWidth(c);
 		if(cursorCurrentPosition.getX() + charSize >= imageWidth - charSize)
 		{
-			System.out.println("end of line");
 			if(cursorCurrentPosition.getY() + g.getFontMetrics().getHeight() < imageHeight)
 			{
 				cursorCurrentPosition.setLocation(this.getBounds().getX(), cursorCurrentPosition.getY() + g.getFontMetrics().getAscent());
