@@ -46,6 +46,7 @@ public class FontColorToolbar extends JComponent {
 	
 	public FontColorToolbar(PhotoComponent associatePhotoComponent)
 	{
+		this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
 		fontTab = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		
 		userFont = new Font(FontColorToolbar.DEFAULT_FONT, Font.PLAIN, FontColorToolbar.DEFAULT_FONT_SIZE);

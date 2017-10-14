@@ -24,6 +24,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
+import treeNode.ImageNode;
 import treeNode.PathNode;
 import treeNode.TextNode;
 import treeNode.TreeReference;
@@ -45,7 +46,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	public static int ANIMATION_MAXIMUM_EDGE = 100;
 	
 	
-	private ImagePhoto imageDisplayed;
+	private ImageNode imageDisplayed;
 	private boolean flipped;
 	private Object annotation;
 	private Dimension preferedSize;
@@ -165,14 +166,14 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	/**
 	 * @return the imageDisplayed
 	 */
-	public ImagePhoto getImageDisplayed() {
+	public ImageNode getImageDisplayed() {
 		return imageDisplayed;
 	}
 
 	/**
 	 * @param imageDisplayed the imageDisplayed to set
 	 */
-	public void setImageDisplayed(ImagePhoto imageDisplayed) {
+	public void setImageDisplayed(ImageNode imageDisplayed) {
 		this.imageDisplayed = imageDisplayed;
 		if(imageDisplayed != null)
 		{

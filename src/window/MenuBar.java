@@ -16,6 +16,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 
+import treeNode.ImageNode;
+
 /**
  * @author A_Tlos
  *
@@ -133,7 +135,7 @@ public class MenuBar extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(fc.getSelectedFile() != null)
-					photoComponent.setImageDisplayed(new ImagePhoto(fc.getSelectedFile().getAbsolutePath()));
+					photoComponent.setImageDisplayed(new ImageNode(fc.getSelectedFile().getAbsolutePath()));
 			}
 		});
 		

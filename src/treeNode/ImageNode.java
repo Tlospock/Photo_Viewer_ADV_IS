@@ -1,7 +1,7 @@
 /**
  * 
  */
-package window;
+package treeNode;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
  * @author paul.meunier
  *
  */
-public class ImagePhoto {
+public class ImageNode {
 	
 	private String path;
 	private boolean hasFlipAnnotation;
@@ -23,11 +23,11 @@ public class ImagePhoto {
 	/**
 	 * Empty constructor
 	 */
-	public ImagePhoto() {
+	public ImageNode() {
 		// VIDE
 	}
 	
-	public ImagePhoto(String pathTemp) {
+	public ImageNode(String pathTemp) {
 		path = pathTemp;
 		try {
 			this.setPhoto(ImageIO.read(new File(pathTemp)));
