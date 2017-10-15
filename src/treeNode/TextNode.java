@@ -37,6 +37,9 @@ public class TextNode extends Node{
 	 * @param g the graphics environment of the parent
 	 */
 	public void drawAnnotation(Point position, PhotoComponent parent, Graphics g, double imageWidth, double imageHeight) {
+		if(!displayed)
+			return;
+		
 		g.setColor(colorNode);
 		g.setFont(font);
 		if(toWrite.length() == 0)

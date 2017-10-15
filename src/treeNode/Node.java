@@ -41,6 +41,7 @@ public abstract class Node {
 		this.parent = parentTemp;
 		childrens = new ArrayList<>();
 		bounds = new Rectangle(0, 0, 0, 0);
+		displayed = true;
 	}
 	
 	/**
