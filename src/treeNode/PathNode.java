@@ -34,7 +34,7 @@ public class PathNode extends Node{
 	@Override
 	public void draw(Point lastCursorPosition, Graphics g, PhotoComponent panel, int imageWidth, int imageHeight) {
 		Point previousPoint = new Point(strokes.get(0));
-		g.setColor(color);
+		g.setColor(colorNode);
 		
 		for(int i = 1; i < strokes.size(); ++i)
 		{

@@ -280,6 +280,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 	 */
 	public void setUserPathColor(Color userPathColor) {
 		this.userPathColor = userPathColor;
+		System.out.println("Color switch setUserPathColor!" + userPathColor.toString());
 	}
 
 	@Override
@@ -298,6 +299,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 			currentPathNode = new PathNode(treeReference.getRootNode());
 			currentPathNode.setColorNode(userPathColor);
 			treeReference.getRootNode().addChildren(currentPathNode);
+			System.out.println("Color switch!" + userPathColor.toString());
 		}
 		
 		currentPathNode.addPointToList(e.getPoint());;
