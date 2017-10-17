@@ -23,12 +23,18 @@ public class StrokeAnnotation extends JComponent implements Annotation{
 	private List<Point> strokes;
 	private Color color = new Color(255, 0, 0);
 	
-	
+	/**
+	 * Default constructor
+	 */
 	public StrokeAnnotation()
 	{
 		strokes = new ArrayList<Point>();
 	}
 	
+	/**
+	 * Constructor
+	 * @param startPointTemp First point of the annotation
+	 */
 	public StrokeAnnotation(Point startPointTemp)
 	{
 		strokes = new ArrayList<Point>();
@@ -58,6 +64,9 @@ public class StrokeAnnotation extends JComponent implements Annotation{
 		this.strokes = strokes;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void drawAnnotation(Point position, PhotoComponent parent, Graphics g, double height, double width) {
 		Point previousPoint = new Point(strokes.get(0));
@@ -70,11 +79,17 @@ public class StrokeAnnotation extends JComponent implements Annotation{
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Color getColor() {
 		return color;
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setColor(Color colorTemp) {
 		color = colorTemp;

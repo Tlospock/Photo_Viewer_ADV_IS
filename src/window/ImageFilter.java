@@ -15,7 +15,7 @@ public class ImageFilter extends FileFilter {
 
 	private final static String description = "Just images...";
 	
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
 	 */
 	@Override
@@ -45,7 +45,7 @@ public class ImageFilter extends FileFilter {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.filechooser.FileFilter#getDescription()
 	 */
 	@Override

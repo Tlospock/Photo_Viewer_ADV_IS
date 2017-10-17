@@ -17,18 +17,31 @@ import window.PhotoComponent;
 public class TreeReference extends JComponent{
 	
 	/**
-	 * 
+	 * UID
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private RootNode rootNode;
 	private Point upperLeftCorner;
 	
+	/**
+	 * Constructor
+	 * @param upperLeftTemp the absolute position of the upper left corner of the component
+	 */
 	public TreeReference(Point upperLeftTemp)
 	{
 		rootNode = new RootNode();
 		this.upperLeftCorner = upperLeftTemp;
 	}
 	
+	/**
+	 * 
+	 * @param lastCursorPosition
+	 * @param g The graphics context
+	 * @param panel The photocomponent in which is this
+	 * @param imageWidth The width of the image, use not to go over the border while drawing annotation
+	 * @param imageHeight The height of the image, use not to go over the border while drawing annotation
+	 */
 	public void drawAllNode(Point lastCursorPosition, Graphics g, PhotoComponent panel, int imageWidth, int imageHeight)
 	{
 		rootNode.draw(lastCursorPosition, g, panel, imageWidth, imageHeight);

@@ -19,6 +19,11 @@ public class ContainerNode extends Node{
 
 	private JComponent parentPosition;
 	
+	/**
+	 * Constructor for ContainerNode
+	 * @param parentTemp The parent {@link Node}
+	 * @param parentPanel The parent panel
+	 */
 	public ContainerNode(Node parentTemp, JComponent parentPanel) {
 		super(parentTemp);
 		parentPosition = parentPanel;

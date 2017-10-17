@@ -22,6 +22,9 @@ public class StatusBar extends JPanel {
 	private JPanel statusBar;
 	private JLabel lastAction;
 	
+	/**
+	 * Constructor
+	 */
 	public StatusBar()
 	{
 		statusBar = new JPanel();
@@ -31,13 +34,17 @@ public class StatusBar extends JPanel {
 		statusBar.add(lastAction);
 	}
 	
+	/**
+	 * Set the text of the status bar
+	 * @param action the text to display in the action bar
+	 */
 	public void updateStatusBar(String action)
 	{
 		lastAction.setText(action);
 	}
 
 	/**
-	 * @return the statusBar
+	 * @return a reference to the statusBar
 	 */
 	public JPanel getStatusBar() {
 		return statusBar;

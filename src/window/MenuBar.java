@@ -67,6 +67,9 @@ public class MenuBar extends JPanel {
 	// Reference to the component which displays the photos
 	private PhotoComponent photoComponent;
 	
+	/**
+	 * Constructor
+	 */
 	public MenuBar()
 	{
 		// Create the menu bar
@@ -111,6 +114,7 @@ public class MenuBar extends JPanel {
 		splitModeViewerMode.addActionListener(event -> changeViewMode(SPLIT_MODE_LABEL));
 		viewMenuRadioButtonGroup.add(splitModeViewerMode);
 		
+		//Add all part to view menu
 		viewMenu.add(photoViewerMode);
 		viewMenu.add(browserViewerMode);
 		viewMenu.add(splitModeViewerMode);
@@ -118,6 +122,12 @@ public class MenuBar extends JPanel {
 		menuBar.add(viewMenu);
 	}
 	
+	/**
+	 * Specialized constructor
+	 * @param statusBarTemp A reference to the status bar
+	 * @param windowTemp A reference to the main window
+	 * @param photoComponentTemp A reference to the component which will display the photo
+	 */
 	public MenuBar(StatusBar statusBarTemp, JFrame windowTemp, PhotoComponent photoComponentTemp)
 	{
 		this();
@@ -127,6 +137,9 @@ public class MenuBar extends JPanel {
 		
 	}
 	
+	/**
+	 * To import the picture from a file chooser, whith a custom filter for image
+	 */
 	public void importPicture()
 	{
 		final JFileChooser fc = new JFileChooser();
@@ -150,16 +163,28 @@ public class MenuBar extends JPanel {
 			statusBar.updateStatusBar("Import aborted");
 	}
 	
+	/**
+	 * Delete the picture from the photo component
+	 */
 	public void deletePicture()
 	{
+		window.dispose();
+		new MainWindow("Photo viewer");
 		statusBar.updateStatusBar(DELETE_LABEL);
 	}
 	
+	/**
+	 * Quit and close the window
+	 */
 	public void quitSoftware() {
 		statusBar.updateStatusBar(QUIT_LABEL);
 		window.dispose();
 	}
 	
+	/**
+	 * Todo Change the view mode (not yet implemented)
+	 * @param viewMode the view mode
+	 */
 	public void changeViewMode(String viewMode) {
 		statusBar.updateStatusBar("Mode changed: " + viewMode);
 	}
